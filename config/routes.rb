@@ -1,4 +1,20 @@
 Chat::Application.routes.draw do
+  get "room/index"
+
+  get "room/create"
+
+  get "room/overview"
+
+  get "room/new"
+
+  get "room/event"
+
+  get "home/index"
+
+  get "home/login"
+
+  get "home/logout"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
