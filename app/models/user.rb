@@ -7,4 +7,5 @@ class User < ActiveRecord::Base
   validates :password, :length => { :minimum => 2}
   validates :password, :length => { :maximum => 100}
   belongs_to :room
+
 end
