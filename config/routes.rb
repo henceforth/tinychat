@@ -1,17 +1,19 @@
 Chat::Application.routes.draw do
+  root :to => 'home#index'
+
   get "room/index"
 
-  get "room/create"
+  post "room/create"
 
   get "room/overview"
 
   get "room/new"
 
-  get "room/event"
+  post "room/event"
 
   get "home/index"
 
-  get "home/login"
+  post "home/login"
 
   get "home/logout"
 
