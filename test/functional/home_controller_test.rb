@@ -7,12 +7,19 @@ class HomeControllerTest < ActionController::TestCase
   end
 
   test "should get login" do
-    get :login
-    assert_response :success
+    post :login, {'username' => 'user', 'password' => 'pass'}
+    assert_response 302
+
+    post :login, {'username' => 'user', 'password' => 'pas'}
+    assert_response 500
+
+    post :login, {'username' => '', 'password' => 'pas'}
+    assert_response 500
   end
 
   test "should get logout" do
-    get :logout
+    get :logout, {}, nil 
+    #should actually fail, no session given
     assert_response :success
   end
 

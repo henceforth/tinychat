@@ -7,11 +7,10 @@ class HomeController < ApplicationController
     #check if user in db, else create
     if User.where(:name => params[:username]).exists?
       #check password
-      debugger
       user = User.where(:name => params[:username]).first
       if user[:password] != params[:password]
         flash[:error] = "wrong username or password"
-        render :action => "index"
+        render :action => "index", :status => 500
         return
       end
     else
@@ -23,7 +22,7 @@ class HomeController < ApplicationController
         flash[:notice] = "User created"
       else
         flash[:error] = user.errors.messages
-        render :action => "index"
+        render :action => "index", :status => 500
         return
       end 
     end
