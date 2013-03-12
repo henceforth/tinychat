@@ -16,6 +16,10 @@
   <% end %>
 
   <div class="container well">
+    <% if !session[:user_id].nil? %>
+      <%= render :partial => "room/roommenu" %> 
+    <% end %>
+
     <%= yield %>
   </div>
 

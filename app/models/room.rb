@@ -6,4 +6,5 @@ class Room < ActiveRecord::Base
   validates :password, :length => { :maximum => 20}
   validates :user_id, :presence => true
   belongs_to :user
+  has_many :posts
 end

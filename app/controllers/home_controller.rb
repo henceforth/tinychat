@@ -1,4 +1,13 @@
 class HomeController < ApplicationController
+  before_filter :user_logged_in, :except => [:logout]
+
+  def user_logged_in
+    if !session[:user_id].nil?
+      redirect_to :controller => "room", :action => "overview"
+      return
+    end
+  end
+
   def index
     #display user login
   end
@@ -33,5 +42,6 @@ class HomeController < ApplicationController
   def logout
     #destroy user session
     reset_session
+    redirect_to :action => "index"
   end
 end
