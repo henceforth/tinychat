@@ -1,2 +1,12 @@
 <h1>Room#index</h1>
 <p>Find me in app/views/room/index.html.erb</p>
+<% @posts.each do |post| %>
+  <% if post.message == "joined" %>
+    <p class="join"><%= post.user.name %> joined <%= post.room.name %></p>
+  <% elsif post.message == "left" %>
+    <p class="leave"><%= post.user.name %> left <%= post.room.name %></p>
+  <% else %>
+    <p><%= post.user.name %>: <%= post.message %></p>
+  <% end %>
+<% end %>
+

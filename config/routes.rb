@@ -9,7 +9,8 @@ Chat::Application.routes.draw do
 
   get "room/new"
 
-  post "room/event"
+  #post "room/event"
+  match "room/event/:type(/:params)" => "room#event"
 
   get "home/index"
 

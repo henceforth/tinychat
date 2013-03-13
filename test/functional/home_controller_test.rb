@@ -19,8 +19,7 @@ class HomeControllerTest < ActionController::TestCase
 
   test "should get logout" do
     get :logout, {}, nil 
-    #should actually fail, no session given
-    assert_response :success
+    assert_response 302
   end
 
 end
