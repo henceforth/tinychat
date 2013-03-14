@@ -1,11 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  name: hcf
-  password: pass
-  room_id: 
 
-two:
+exists:
   name: user
   password: pass
+  room_id: 1
+  id: 1
+
+wrong_pass:
+  name: user
+  password: pas
   room_id: 1

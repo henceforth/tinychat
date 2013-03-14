@@ -5,9 +5,11 @@ one:
   password: MyString
   private: false
   user_id: 1
+  id: 1
 
 two:
   name: MyString
   password: MyString
   private: false
   user_id: 1
+  id: 2

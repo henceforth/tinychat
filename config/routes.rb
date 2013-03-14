@@ -9,14 +9,14 @@ Chat::Application.routes.draw do
 
   get "room/new"
 
-  #post "room/event"
-  match "room/event/:type(/:params)" => "room#event"
+  match "room/event/(:type(/:params))" => "room#event"
 
   get "home/index"
 
   post "home/login"
 
   get "home/logout"
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
