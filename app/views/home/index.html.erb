@@ -1,10 +1,14 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
-<%= form_tag("/home/login", :method => "post") do %>
-<%= label_tag(:username, "User name:") %>
-<%= text_field_tag(:username) %>
+<h3> SuperTinyChat, baby</h3>
+<%= form_tag("/home/login", :method => "post", :class => "form-horizontal") do %>
+<div class="control-group">
+  <%= text_field_tag(:username, nil, {:placeholder => "Username"}) %>
+</div>
 
-<%= label_tag(:password, "Password: ") %>
-<%= text_field_tag(:password) %>
-<%= submit_tag("Go!") %>  
+<div class="control-group">
+  <%= password_field_tag(:password, nil, {:placeholder => "Password"}) %>
+</div>
+
+<div class="control-group">
+  <%= submit_tag("Login/Create") %>  
+</div>
 <% end %>

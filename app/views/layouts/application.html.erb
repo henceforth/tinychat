@@ -6,22 +6,29 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+  <body>
+    <div class="text-center">
+      <div class="container well">
+        <% if !session[:user_id].nil? %>
+          <%= render :partial => "room/roommenu" %> 
+        <% end %>
 
-  <% if flash %>
-    <div class="flash">
-      <%= flash[:notice] %>
-      <%= flash[:error] %>
+        <div class="flash">
+          <% if flash[:notice] %>
+              <div class="alert alert-notice">
+                <%= flash[:notice] %>
+              </div>
+          <% end %>
+
+          <% if flash[:error] %>
+              <div class="alert alert-error">
+                <%= flash[:error] %>
+              </div>
+          <% end %>
+        </div>
+
+        <%= yield %>
+      </div>
     </div>
-  <% end %>
-
-  <div class="container well">
-    <% if !session[:user_id].nil? %>
-      <%= render :partial => "room/roommenu" %> 
-    <% end %>
-
-    <%= yield %>
-  </div>
-
-</body>
+  </body>
 </html>
