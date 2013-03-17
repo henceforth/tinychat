@@ -2,5 +2,12 @@
 <h1>Room#overview</h1>
 <p>Find me in app/views/room/overview.html.erb</p>
 <div>
-  <p>currently <%= @rooms.length %> rooms online </p>
+  <p>currently <%= @rooms.length %> rooms online, click to join </p>
+  <!-- <%= render :partial => "room_panel" %> -->
+  <div class="btn-group btn-group-vertical">
+    <% @rooms.each do |room| %>
+      <a href="/room/event/join/<%= room.id %>" class="btn"><%= room.name %>, currently <%= room.users.length %> users online
+        <% if !room.password.empty? %><i class="icon-lock"></i><% end %></a>
+    <% end %>
+  </div>
 </div>

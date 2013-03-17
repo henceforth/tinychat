@@ -9,6 +9,7 @@ class RoomController < ApplicationController
         flash[:error] = "no room set"
         return
       end
+      @rooms = Room.all
     end
   end
 
@@ -26,14 +27,22 @@ class RoomController < ApplicationController
     #display room status as html, json
     #if @user.room.nil?
     if @user.room_id.nil?
-      render :text => "join a room first"
+      #render :text => "join a room first"
+      flash[:error] = "join a room first"
+      redirect_to :action => "overview"
       return
     end
 
     respond_to do |format|
       @posts = @user.room.posts
       format.html 
-      format.json {render :json => @user.room.posts}
+      format.json {
+        jsonStruc = []
+        @posts.reverse_each{|post|
+          jsonStruc<<{:username => User.find(post.user_id)[:name], :message => post[:message], :created => post[:created_at], :roomname => @user.room.name}
+        }
+        render :json => jsonStruc
+      }
     end
   end
 

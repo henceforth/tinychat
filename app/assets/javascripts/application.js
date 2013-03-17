@@ -13,4 +13,14 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
+//= require jquery-ui
+//= require plugins
 //= require_tree .
+
+$(".nav > li").mouseover(function(){
+  $(this).addClass("active");
+})
+
+$(".nav > li").mouseleave(function(){
+  $(this).removeClass("active");
+})
