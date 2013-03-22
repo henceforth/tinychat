@@ -5,28 +5,17 @@
     <input class="span2" type="text" id="chattextbox">
     <button class="btn" type="button" id="chattextbtn">Send</button>
   </div>
+    <%= link_to("leave", "/room/event/leave") %>
 </div>
 
 <div class="container-fluid">
   <div class="row-fluid">
-    <div id="userlist" class="span1">
+    <div id="userlist" class="span2">
       <ul class="nav nav-list">
-        <% @user.room.users.each do |user| %>
-          <li> <%= user.name %> </li>
-        <% end %>
       </ul>
     </div>
 
     <div id="chat" class="span8">
-    <% @posts.reverse_each do |post| %>
-      <% if post.message == "joined" %>
-        <p class="join"><%= post.created_at %> <%= post.user.name %> joined <%= post.room.name %></p>
-      <% elsif post.message == "left" %>
-        <p class="leave"><%= post.created_at %> <%= post.user.name %> left <%= post.room.name %></p>
-      <% else %>
-        <p><%= post.created_at %> <%= post.user.name %>: <%= post.message %></p>
-      <% end %>
-    <% end %>
     </div>
   </div>
 </div>

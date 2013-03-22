@@ -12,6 +12,18 @@ class RoomControllerTest < ActionController::TestCase
     assert_response 200
 
     assert_raise (ActiveRecord::RecordNotFound) { get :index, {}, {:user_id => 999} }
+
+    get :index, {}, {:user_id => 2}
+    assert_redirected_to :action => "overview"
+    assert_equal flash[:error], "join a room first"
+
+    #get room_index_url(:format => :json), {}, SESSION_USER_ID
+    get :index, {:format => :json}, SESSION_USER_ID
+    assert_response 200
+    userlist = JSON.parse(@response.body)["userlist"]
+    assert userlist[0]["name"] == "user"
+    postlist = JSON.parse(@response.body)["postlist"]
+    assert postlist[0]["message"] == "MyString"
   end
 #
   test "should post create" do
@@ -21,8 +33,10 @@ class RoomControllerTest < ActionController::TestCase
     post :create, {:name => "room"}
     assert_response 500
 
-    #post :create, {"room[name]" => "room", "room[private]" => true, "room[password]"=>""}, {:user_id=>1}
-    #assert_response 302
+    post :create, {:room => {:name => "room", :private => false, :password => ""}}, SESSION_USER_ID    
+    #assert_redirected_to :action => "/event/join/#{assigns(:room).id}"
+    assert_redirected_to "/room/event/join/#{assigns(:room).id}"
+
   end
 #
   test "should get overview" do
@@ -57,7 +71,10 @@ class RoomControllerTest < ActionController::TestCase
 
   test "should get event leave" do
     get :event, {:type => "leave"}, {:user_id => 1}
-    assert_redirected_to :action => "index"
+    assert_redirected_to :action => "overview"
+
+    get :event, {:type => "leave", :format => "json"}, {:user_id => 1}
+    assert @response.body == "true"
   end
 
   test "should get event say" do
@@ -69,6 +86,17 @@ class RoomControllerTest < ActionController::TestCase
 
     get :event, {:type => "say", :params => "works", :format => :json}, SESSION_USER_ID
     assert_response :ok
+
+    get :event, {:type => "leave"}, {:user_id => 2}
+    assert_redirected_to :action => "overview"
+    assert flash[:error] == "no room set"
+
+    get :event, {:type => "say", :params => "  "}, SESSION_USER_ID
+    assert_response :not_acceptable
+
+
+    get :event, {:type => "say", :format => "json", :params => "  "}, SESSION_USER_ID
+    assert @response.body == "false"
   end
 
 end

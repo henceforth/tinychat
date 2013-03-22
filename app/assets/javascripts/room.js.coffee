@@ -4,9 +4,23 @@
 
 update = ->
   $.getJSON("/room/index", (data) ->
+    #clear chatbox
     debugger
     $("#chat").html("");
-    data.forEach((element)->
+
+    #create userlist
+    users = data["userlist"]
+    source = "<p>{{name}}</p>"
+    template = Handlebars.compile(source)
+    userPanelHtml = ""
+    users.forEach((user)->
+      userPanelHtml += template(user)
+    )
+    $("#userlist").html(userPanelHtml);
+
+    #create message window
+    posts = data["postlist"]
+    posts.forEach((element)->
       if element["message"]=="joined"
         post = $("<p>").addClass("join").text(element["created"] + " " + element["username"] + " joined " + element["roomname"])
       else if element["message"] == "left"
@@ -19,7 +33,7 @@ update = ->
 $(document).ready(
   update();
   setInterval(update, 5000);
-  $("#chattextbtn").click(()->
+  $("#chattextbtn").click(->
     $.get("/room/event/say/"+encodeURIComponent($("#chattextbox").val()))
     $("#chattextbox").val("");
     update()

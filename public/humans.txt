@@ -11,8 +11,8 @@
 
 /* SITE */
   Standards: HTML5, CSS3
-  Components: Modernizr, jQuery, Bootstrap, Rails, a working brain
-  Software: vim, Make & arch
+  Components: Modernizr, jQuery, Bootstrap, Rails, Coffeescript, a working brain
+  Software: vim, Make & arch linux
 
 
 

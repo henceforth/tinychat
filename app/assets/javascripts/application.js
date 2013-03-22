@@ -24,3 +24,8 @@ $(".nav > li").mouseover(function(){
 $(".nav > li").mouseleave(function(){
   $(this).removeClass("active");
 })
+
+$(".onClickLeave").click(function(){
+  debugger
+  $.get("/room/event/leave.json");
+})

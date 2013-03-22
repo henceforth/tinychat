@@ -10,4 +10,4 @@ exists:
 wrong_pass:
   name: user
   password: pas
-  room_id: 1
+  id: 2  

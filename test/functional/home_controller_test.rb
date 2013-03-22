@@ -5,6 +5,9 @@ class HomeControllerTest < ActionController::TestCase
   test "should get index" do
     get :index
     assert_response :success
+
+    get :index, {}, {:user_id => 1}
+    assert_redirected_to :controller => "room", :action => "overview"
   end
 
   test "should get login" do
@@ -17,7 +20,6 @@ class HomeControllerTest < ActionController::TestCase
   test "should register user" do
     user = "new"
     pass = "pass"
-    #debugger
     post :login, {'username' => user, 'password' => pass}
     assert_equal nil, flash[:error]
     assert_redirected_to :controller => "room", :action => "overview"

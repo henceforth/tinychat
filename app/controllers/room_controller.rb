@@ -27,7 +27,6 @@ class RoomController < ApplicationController
     #display room status as html, json
     #if @user.room.nil?
     if @user.room_id.nil?
-      #render :text => "join a room first"
       flash[:error] = "join a room first"
       redirect_to :action => "overview"
       return
@@ -37,11 +36,20 @@ class RoomController < ApplicationController
       @posts = @user.room.posts
       format.html 
       format.json {
-        jsonStruc = []
-        @posts.reverse_each{|post|
-          jsonStruc<<{:username => User.find(post.user_id)[:name], :message => post[:message], :created => post[:created_at], :roomname => @user.room.name}
+        #create user list
+        userlist = []
+        @user.room.users.each{|user|
+          userlist << {:name => user.name}
         }
-        render :json => jsonStruc
+
+        #get all posts
+        postlist = []
+        @posts.reverse_each{|post|
+          postlist<<{:username => User.find(post.user_id)[:name], :message => post[:message], :created => post[:created_at], :roomname => @user.room.name}
+        }
+
+        json = {:userlist => userlist, :postlist => postlist}
+        render :json => json
       }
     end
   end
@@ -71,6 +79,7 @@ class RoomController < ApplicationController
 
   #get
   def event
+    #debugger
     #receive join,quit,say events, post to room
     if params[:type].nil?
       redirect_to :action => "overview"
@@ -94,7 +103,14 @@ class RoomController < ApplicationController
       Post.create_post_leave(@user.id, @user.room.id).save
       @user.room_id = nil
       @user.save
-      redirect_to :action => "index"
+      respond_to do |format|
+        format.html {
+          redirect_to :action => "overview"
+        }
+        format.json {
+          render :json => true
+        }
+      end
     elsif type == "say"
       if parameter.nil? or parameter.length < 1
         head :no_content and return
