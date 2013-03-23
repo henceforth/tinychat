@@ -34,8 +34,17 @@ class RoomController < ApplicationController
 
     respond_to do |format|
       @posts = @user.room.posts
-      format.html 
+      format.html { 
+        session[:last_update] = nil; #reset so json refresh passes
+        render;
+      }
+
       format.json {
+        if !session[:last_update].nil? and session[:last_update] >= @user.room[:last_post]
+          head :ok
+          return
+        end
+        session[:last_update] = Time.new 
         #create user list
         userlist = []
         @user.room.users.each{|user|
@@ -100,6 +109,7 @@ class RoomController < ApplicationController
       @user.save
       redirect_to :action => "index"
     elsif type == "leave"
+      debugger
       Post.create_post_leave(@user.id, @user.room.id).save
       @user.room_id = nil
       @user.save

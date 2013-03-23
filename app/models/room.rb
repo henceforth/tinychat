@@ -1,5 +1,5 @@
 class Room < ActiveRecord::Base
-  attr_accessible :name, :password, :private, :user_id
+  attr_accessible :name, :password, :private, :user_id, :last_post
   validates :name, :uniqueness => true
   validates :name, :length => { :minimum => 2}
   validates :name, :length => { :maximum => 100}

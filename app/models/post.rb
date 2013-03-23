@@ -7,7 +7,14 @@ class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :room
 
+  def self.update_room(room_id)
+    room = Room.find(room_id)
+    room[:last_post] = Time.new
+    room.save
+  end
+
   def self.create_post_say(message, user_id, room_id)
+    update_room(room_id)
     post = Post.new
     post[:message] = message + " " #dirtiest hack ever
     post[:user_id] = user_id
@@ -16,6 +23,7 @@ class Post < ActiveRecord::Base
   end
 
   def self.create_post_join(user_id, room_id)
+    update_room(room_id)
     post = Post.new
     post[:message] = "joined"
     post[:user_id] = user_id
@@ -24,6 +32,7 @@ class Post < ActiveRecord::Base
   end
 
   def self.create_post_leave(user_id, room_id)
+    update_room(room_id)
     post = Post.new
     post[:message] = "left"
     post[:user_id] = user_id

@@ -19,3 +19,17 @@
     </div>
   </div>
 </div>
+
+<script type="text/coffeescript">
+$(document).ready(->
+  $("#indexscript").ready(->
+    update();
+    setInterval(update, 5000);
+    $("#chattextbtn").click(()->
+      $.get("/room/event/say/"+encodeURIComponent($("#chattextbox").val()))
+      $("#chattextbox").val("");
+      update();
+    );
+  );
+);
+</script>

@@ -27,6 +27,7 @@
   <!-- All JavaScript at the bottom, except this Modernizr build.
        Modernizr enables HTML5 elements & feature detects for optimal performance.
        Create your own custom Modernizr build: www.modernizr.com/download/ -->
+  <%= javascript_include_tag 'application' %>
   <%= javascript_include_tag 'modernizr' %>
 
   <!-- Initializes the modernizr and actually perform the checks. Enable this
@@ -61,8 +62,6 @@
       </div>
     <!-- content end -->
 
-  <!-- JavaScript at the bottom for fast page loading: http://developer.yahoo.com/performance/rules.html#js_bottom -->
-  <%= javascript_include_tag 'application' %>
 
   <% if Rails.env.production? %>
   <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.

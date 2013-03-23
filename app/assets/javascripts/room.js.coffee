@@ -5,7 +5,6 @@
 update = ->
   $.getJSON("/room/index", (data) ->
     #clear chatbox
-    debugger
     $("#chat").html("");
 
     #create userlist
@@ -29,14 +28,5 @@ update = ->
         post = $("<p>").text(element["created"] + " " + element["username"] + ": " + element["message"])
       $("#chat").append(post))
     )
-    
-$(document).ready(
-  update();
-  setInterval(update, 5000);
-  $("#chattextbtn").click(->
-    $.get("/room/event/say/"+encodeURIComponent($("#chattextbox").val()))
-    $("#chattextbox").val("");
-    update()
-  )
-);
 
+window.update = update

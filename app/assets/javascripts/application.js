@@ -14,18 +14,20 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require jquery-ui
+//= require coffee-script
 //= require plugins
 //= require_tree .
 
-$(".nav > li").mouseover(function(){
-  $(this).addClass("active");
-})
+$(document).ready(function(){
+  $(".nav > li").mouseover(function(){
+    $(this).addClass("active");
+  })
 
-$(".nav > li").mouseleave(function(){
-  $(this).removeClass("active");
-})
-
-$(".onClickLeave").click(function(){
-  debugger
-  $.get("/room/event/leave.json");
+  $(".nav > li").mouseleave(function(){
+    $(this).removeClass("active");
+  })
+  $(".onClickLeave").click(function(){
+    debugger
+    $.get("/room/event/leave.json");
+  })
 })
