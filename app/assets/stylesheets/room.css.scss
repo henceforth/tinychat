@@ -3,13 +3,21 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .leave{
-  background-color: red;
+  //background-color: red;
 };
 
 .join{
-  background-color: green;
+  //background-color: green;
 };
 
-#chat, #userlist{
+#chat, #userlist, #userlist-head{
   background-color: white;
+}
+
+#userpanel{
+  background-color: white;
+}
+
+.roompanel{
+  margin-bottom: 10px;
 }

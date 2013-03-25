@@ -1,13 +1,23 @@
-<!-- TODO 2 column layout for table overview -->
 <h1>Room#overview</h1>
 <p>Find me in app/views/room/overview.html.erb</p>
 <div>
   <p>currently <%= @rooms.length %> rooms online, click to join </p>
-  <!-- <%= render :partial => "room_panel" %> -->
-  <div class="btn-group btn-group-vertical">
-    <% @rooms.each do |room| %>
-      <a href="/room/event/join/<%= room.id %>" class="btn"><%= room.name %>, currently <%= room.users.length %> users online
-        <% if !room.password.empty? %><i class="icon-lock"></i><% end %></a>
-    <% end %>
-  </div>
+  <% @rooms.each do |room| %>
+    <%= render :partial => "room_panel", :locals => {:room => room} %>
+  <% end %>
 </div>
+<%= render :partial => "password_modal" %>
+<script type="text/coffeescript">
+  $("document").ready ->
+    $(".roompanel.nopass").click ->
+      window.location = "/room/event/join/"+this.id
+
+    $(".roompanel.pass").click ->
+      $("#dialog-pass #room_id").text(this.id)
+      $("#dialog-pass").modal([backdrop: true])
+
+    $("#dialog-pass .btn-primary").click ->
+      room_id = $("#dialog-pass #room_id").text()
+      password = $("#dialog-pass input").val()
+      window.location = "/room/event/join/"+room_id+":"+password
+</script>

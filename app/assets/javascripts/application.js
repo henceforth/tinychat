@@ -12,10 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require twitter/bootstrap
-//= require jquery-ui
+//= require twitter/bootstrap/bootstrap-modal
 //= require coffee-script
-//= require plugins
+//= require handlebars
 //= require_tree .
 
 $(document).ready(function(){

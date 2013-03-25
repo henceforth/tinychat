@@ -88,7 +88,6 @@ class RoomController < ApplicationController
 
   #get
   def event
-    #debugger
     #receive join,quit,say events, post to room
     if params[:type].nil?
       redirect_to :action => "overview"
@@ -104,12 +103,26 @@ class RoomController < ApplicationController
         redirect_to :action => "overview"
         return
       end
+      if !@user.room_id.nil?
+        #leave other room first
+        Post.create_post_leave(@user.id, @user.room.id).save
+      end
+      #dirty hax
+      tmp = parameter.split(":", 2) #room_id:password
+      room = Room.find(tmp[0])
+      if !room.password.empty?
+        if room.password != tmp[1]
+          flash[:error] = "invalid password"
+          redirect_to :action => "overview"
+          return
+        end
+      end
+
       @user.room_id = parameter  
       Post.create_post_join(@user.id, @user.room.id).save
       @user.save
       redirect_to :action => "index"
     elsif type == "leave"
-      debugger
       Post.create_post_leave(@user.id, @user.room.id).save
       @user.room_id = nil
       @user.save
@@ -126,8 +139,14 @@ class RoomController < ApplicationController
         head :no_content and return
       end
 
+      if Time.new - @user.last_post < 3.seconds
+        head :precondition_failed and return
+      end
+
       post = Post.create_post_say(parameter, @user.id, @user.room.id)
       if post.save
+        @user.last_post = Time.new
+        @user.save
         respond_to do |format|
           format.html {head :ok}
           format.json {render :json => true}

@@ -1,6 +1,13 @@
-<div class="roompanel">
-  <div class="name">NAME</div>
-  <div class="stats">
-    Currently 0 users online
-  </div>
+<% if room.password.empty? %>
+  <div class="roompanel nopass btn span3" id=<%= room.id %>>
+<% else %>
+  <div class="roompanel pass btn span3" id=<%= room.id %>>
+<% end %>
+  <h4><%=room.name %></h4>
+  <p>currently <%= room.users.length %> users online</p>
+  <% if !room.password.empty? %>
+    <p class="password">password needed <i class="icon-lock"></i></p>
+  <% else %>
+    <p>no password needed</p>
+  <% end %>
 </div>

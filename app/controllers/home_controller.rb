@@ -27,6 +27,7 @@ class HomeController < ApplicationController
       user = User.new
       user[:name] = params[:username]
       user[:password] = params[:password]
+      user[:last_post] = 0
       if user.save
         flash[:notice] = "User created"
       else

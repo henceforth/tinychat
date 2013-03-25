@@ -4,8 +4,6 @@ class Post < ActiveRecord::Base
   validates :message, :length => { :maximum => 1000}
   validates :room_id, :presence => true
   validates :user_id, :presence => true
-  belongs_to :user
-  belongs_to :room
 
   def self.update_room(room_id)
     room = Room.find(room_id)

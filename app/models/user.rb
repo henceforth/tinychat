@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :name, :password, :room_id
+  attr_accessible :name, :password, :room_id, :last_post
   validates :name, :presence => true
   validates :name, :uniqueness => true
   validates :name, :length => { :minimum => 2}

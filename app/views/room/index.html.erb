@@ -1,17 +1,26 @@
 <h1>Room#index</h1>
 <p>Find me in app/views/room/index.html.erb</p>
-<div id="chatInput">
-  <div class="input-append">
-    <input class="span2" type="text" id="chattextbox">
-    <button class="btn" type="button" id="chattextbtn">Send</button>
+<div id="chatInput" class="container-fluid">
+  <div class="row">
+    <div class="span2">
+      <%= link_to("leave", "/room/event/leave", {:class=>"btn"}) %>
+      <%= button_tag("refresh", {:class=>"btn", :id=>"refreshbtn"}) %>
+    </div>
+
+    <div class="input-append span8">
+      <input type="text" id="chattextbox">
+      <button class="btn" type="button" id="chattextbtn">Send</button>
+    </div>
   </div>
-    <%= link_to("leave", "/room/event/leave") %>
 </div>
 
 <div class="container-fluid">
   <div class="row-fluid">
-    <div id="userlist" class="span2">
-      <ul class="nav nav-list">
+    <div id="userpanel" class="span2">
+      <div>
+        Currently in this room
+      </div>
+      <ul class="nav nav-list" id="userlist">
       </ul>
     </div>
 
@@ -21,15 +30,20 @@
 </div>
 
 <script type="text/coffeescript">
-$(document).ready(->
-  $("#indexscript").ready(->
-    update();
-    setInterval(update, 5000);
-    $("#chattextbtn").click(()->
-      $.get("/room/event/say/"+encodeURIComponent($("#chattextbox").val()))
-      $("#chattextbox").val("");
-      update();
-    );
-  );
-);
+$(document).ready ->
+  update()
+  setInterval(update, 5000)
+
+  $("#refreshbtn").click ->
+    update()
+
+  $("#chattextbtn").click ->
+    a = $.get("/room/event/say/"+encodeURIComponent($("#chattextbox").val()))
+    .fail(->
+      if a.status == 412
+        alert("please wait 3 seconds between each submit")
+    )
+
+    $("#chattextbox").val("")
+    update()
 </script>

@@ -6,8 +6,24 @@ exists:
   password: pass
   room_id: 1
   id: 1
+  last_post: <%= Time.new - 1.hour %>
 
 wrong_pass:
   name: user
   password: pas
   id: 2  
+  last_post: <%= Time.new - 1.hour %>
+
+json_user_test:
+  name: json
+  password: json
+  room_id: 1
+  id: 3
+  last_post: <%= Time.new - 1.hour %>
+
+caught_by_spam_filter:
+  name: spam
+  password: spam
+  id: 4
+  room_id: 1
+  last_post: <%= Time.new + 1.hour %>

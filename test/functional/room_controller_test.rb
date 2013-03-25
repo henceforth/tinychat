@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class RoomControllerTest < ActionController::TestCase
-  SESSION_USER_ID = {:user_id => 1}
+  SESSION_USER_ID = {:user_id => 1, :last_update => Time.new}
 
   test "should get index" do
     get :index
@@ -18,12 +18,15 @@ class RoomControllerTest < ActionController::TestCase
     assert_equal flash[:error], "join a room first"
 
     #get room_index_url(:format => :json), {}, SESSION_USER_ID
-    get :index, {:format => :json}, SESSION_USER_ID
+    get :index, {:format => "json"}, SESSION_USER_ID
     assert_response 200
     userlist = JSON.parse(@response.body)["userlist"]
     assert userlist[0]["name"] == "user"
     postlist = JSON.parse(@response.body)["postlist"]
     assert postlist[0]["message"] == "MyString"
+
+    get :index, {:format => "json"}, {:user_id => 3, :last_update => Time.new + 2.hour}
+    assert_response :ok
   end
 #
   test "should post create" do
@@ -67,6 +70,15 @@ class RoomControllerTest < ActionController::TestCase
     assert_redirected_to :action => "index"
     assert_equal 1, assigns(@user)[:user].room_id
     assert_equal nil, flash[:error]
+
+    get :event, {:type => "join", :params => "2:MyPass"}, SESSION_USER_ID
+    assert_equal nil, flash[:error]
+    assert_redirected_to :action => "index"
+
+    get :event, {:type => "join", :params => "2:FalsePass"}, SESSION_USER_ID
+    assert_equal "invalid password", flash[:error]
+    assert_redirected_to :action => "overview"
+
   end
 
   test "should get event leave" do
@@ -94,9 +106,12 @@ class RoomControllerTest < ActionController::TestCase
     get :event, {:type => "say", :params => "  "}, SESSION_USER_ID
     assert_response :not_acceptable
 
-
     get :event, {:type => "say", :format => "json", :params => "  "}, SESSION_USER_ID
     assert @response.body == "false"
+
+    get :event, {:type => "say", :params => "spam"}, {:user_id => 4}
+    assert_response 412  #spam protection
+
   end
 
 end
